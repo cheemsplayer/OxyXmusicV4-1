@@ -15,7 +15,6 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 
-import json
 import os
 from os import path
 from typing import Callable
@@ -27,7 +26,6 @@ import requests
 import wget
 from PIL import Image, ImageDraw, ImageFont
 from pyrogram import Client, filters
-from pyrogram.types import Voice
 from pyrogram.errors import UserAlreadyParticipant
 from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup, Message
 from Python_ARQ import ARQ
@@ -41,9 +39,8 @@ from OxyXmusic.config import que
 from OxyXmusic.function.admins import admins as a
 from OxyXmusic.helpers.admins import get_administrators
 from OxyXmusic.helpers.channelmusic import get_chat_id
-from OxyXmusic.helpers.errors import DurationLimitError
-from OxyXmusic.helpers.decorators import errors
 from OxyXmusic.helpers.decorators import authorized_users_only
+from OxyXmusic.helpers.errors import DurationLimitError
 from OxyXmusic.helpers.filters import command, other_filters
 from OxyXmusic.helpers.gets import get_file_name
 from OxyXmusic.services.callsmusic import callsmusic, queues
@@ -422,7 +419,6 @@ async def play(_, message: Message):
                     await lel.edit(
                         "<b>Remember to add helper to your channel</b>",
                     )
-                    pass
                 try:
                     invitelink = await _.export_chat_invite_link(chid)
                 except:
@@ -599,7 +595,6 @@ async def deezer(client: Client, message_: Message):
                     await lel.edit(
                         "<b>Remember to add helper to your channel</b>",
                     )
-                    pass
                 try:
                     invitelink = await client.export_chat_invite_link(chid)
                 except:
@@ -641,7 +636,7 @@ async def deezer(client: Client, message_: Message):
     res = lel
     await res.edit(f"Searching 👀👀👀 for `{queryy}` on deezer")
     try:
-        songs = await arq.deezer(query,1)
+        songs = await arq.deezer(query, 1)
         if not songs.ok:
             await message_.reply_text(songs.result)
             return
@@ -727,7 +722,6 @@ async def jiosaavn(client: Client, message_: Message):
                     await lel.edit(
                         "<b>Remember to add helper to your channel</b>",
                     )
-                    pass
                 try:
                     invitelink = await client.export_chat_invite_link(chid)
                 except:
