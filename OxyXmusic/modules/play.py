@@ -1,6 +1,6 @@
 # OxyXmusic (Telegram bot project)
 # Copyright (C) 2021  OxyNotOp
-
+# Copyright (C) 2021  TheHamkerCat (Python_ARQ)
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU Affero General Public License as
 # published by the Free Software Foundation, either version 3 of the
@@ -17,6 +17,7 @@
 
 import json
 import os
+from os import path
 from typing import Callable
 
 import aiofiles
@@ -26,6 +27,7 @@ import requests
 import wget
 from PIL import Image, ImageDraw, ImageFont
 from pyrogram import Client, filters
+from pyrogram.types import Voice
 from pyrogram.errors import UserAlreadyParticipant
 from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup, Message
 from Python_ARQ import ARQ
@@ -39,6 +41,8 @@ from OxyXmusic.config import que
 from OxyXmusic.function.admins import admins as a
 from OxyXmusic.helpers.admins import get_administrators
 from OxyXmusic.helpers.channelmusic import get_chat_id
+from OxyXmusic.helpers.errors import DurationLimitError
+from OxyXmusic.helpers.decorators import errors
 from OxyXmusic.helpers.decorators import authorized_users_only
 from OxyXmusic.helpers.filters import command, other_filters
 from OxyXmusic.helpers.gets import get_file_name
@@ -418,6 +422,7 @@ async def play(_, message: Message):
                     await lel.edit(
                         "<b>Remember to add helper to your channel</b>",
                     )
+                    pass
                 try:
                     invitelink = await _.export_chat_invite_link(chid)
                 except:
@@ -581,7 +586,7 @@ async def deezer(client: Client, message_: Message):
     try:
         user = await USER.get_me()
     except:
-        user.first_name = "OxyMusic"
+        user.first_name = "OxyXmusic"
     usar = user
     wew = usar.id
     try:
@@ -594,6 +599,7 @@ async def deezer(client: Client, message_: Message):
                     await lel.edit(
                         "<b>Remember to add helper to your channel</b>",
                     )
+                    pass
                 try:
                     invitelink = await client.export_chat_invite_link(chid)
                 except:
@@ -631,15 +637,20 @@ async def deezer(client: Client, message_: Message):
 
     text = message_.text.split(" ", 1)
     queryy = text[1]
+    query = queryy
     res = lel
     await res.edit(f"Searching 👀👀👀 for `{queryy}` on deezer")
     try:
-        r = await arq.deezer(query=queryy, limit=1)
-        title = r[0]["title"]
-        duration = int(r[0]["duration"])
-        thumbnail = r[0]["thumbnail"]
-        artist = r[0]["artist"]
-        url = r[0]["url"]
+        songs = await arq.deezer(query,1)
+        if not songs.ok:
+            await message_.reply_text(songs.result)
+            return
+        title = songs.result[0].title
+        url = songs.result[0].url
+        artist = songs.result[0].artist
+        duration = songs.result[0].duration
+        thumbnail = songs.result[0].thumbnail
+
     except:
         await res.edit("Found Literally Nothing, You Should Work On Your English!")
         return
@@ -716,6 +727,7 @@ async def jiosaavn(client: Client, message_: Message):
                     await lel.edit(
                         "<b>Remember to add helper to your channel</b>",
                     )
+                    pass
                 try:
                     invitelink = await client.export_chat_invite_link(chid)
                 except:
@@ -756,16 +768,15 @@ async def jiosaavn(client: Client, message_: Message):
     res = lel
     await res.edit(f"Searching 👀👀👀 for `{query}` on jio saavn")
     try:
-        async with aiohttp.ClientSession() as session:
-            async with session.get(
-                f"https://jiosaavnapi.bhadoo.uk/result/?query={query}"
-            ) as resp:
-                r = json.loads(await resp.text())
-        sname = r[0]["song"]
-        slink = r[0]["media_url"]
-        ssingers = r[0]["singers"]
-        sthumb = r[0]["image"]
-        sduration = int(r[0]["duration"])
+        songs = await arq.saavn(query)
+        if not songs.ok:
+            await message_.reply_text(songs.result)
+            return
+        sname = songs.result[0].song
+        slink = songs.result[0].media_url
+        ssingers = songs.result[0].singers
+        sthumb = songs.result[0].image
+        sduration = int(songs.result[0].duration)
     except Exception as e:
         await res.edit("Found Literally Nothing!, You Should Work On Your English.")
         print(str(e))
@@ -778,7 +789,7 @@ async def jiosaavn(client: Client, message_: Message):
             ],
             [
                 InlineKeyboardButton(
-                    text="Join Updates Channel", url=f"{updateschannel}"
+                    text="Join Updates Channel", url=f"https://t.me/{updateschannel}"
                 )
             ],
             [InlineKeyboardButton(text="❌ cℓσsε", callback_data="cls")],
