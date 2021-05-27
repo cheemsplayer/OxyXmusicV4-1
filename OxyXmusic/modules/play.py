@@ -15,6 +15,7 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 
+import json
 import os
 from os import path
 from typing import Callable
@@ -26,6 +27,7 @@ import requests
 import wget
 from PIL import Image, ImageDraw, ImageFont
 from pyrogram import Client, filters
+from pyrogram.types import Voice
 from pyrogram.errors import UserAlreadyParticipant
 from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup, Message
 from Python_ARQ import ARQ
@@ -39,8 +41,9 @@ from OxyXmusic.config import que
 from OxyXmusic.function.admins import admins as a
 from OxyXmusic.helpers.admins import get_administrators
 from OxyXmusic.helpers.channelmusic import get_chat_id
-from OxyXmusic.helpers.decorators import authorized_users_only
 from OxyXmusic.helpers.errors import DurationLimitError
+from OxyXmusic.helpers.decorators import errors
+from OxyXmusic.helpers.decorators import authorized_users_only
 from OxyXmusic.helpers.filters import command, other_filters
 from OxyXmusic.helpers.gets import get_file_name
 from OxyXmusic.services.callsmusic import callsmusic, queues
@@ -48,8 +51,9 @@ from OxyXmusic.services.callsmusic.callsmusic import client as USER
 from OxyXmusic.services.converter.converter import convert
 from OxyXmusic.services.downloaders import youtube
 
+aiohttpsession = aiohttp.ClientSession()
 chat_id = None
-arq = ARQ("https://thearq.tech", ARQ_API_KEY)
+arq = ARQ("https://thearq.tech", ARQ_API_KEY, aiohttpsession)
 
 
 def cb_admin_check(func: Callable) -> Callable:
@@ -186,9 +190,9 @@ def r_ply(type_):
                 InlineKeyboardButton("⏭", "skip"),
             ],
             [
-                InlineKeyboardButton("ρℓαүℓιsт 📖", "playlist"),
+                InlineKeyboardButton("Playlist 📖", "playlist"),
             ],
-            [InlineKeyboardButton("❌ cℓσsε", "cls")],
+            [InlineKeyboardButton("❌ Close", "cls")],
         ]
     )
     return mar
@@ -355,9 +359,9 @@ async def m_cb(b, cb):
                     InlineKeyboardButton("⏭", "skip"),
                 ],
                 [
-                    InlineKeyboardButton("ρℓαүℓιsт 📖", "playlist"),
+                    InlineKeyboardButton("Playlist 📖", "playlist"),
                 ],
-                [InlineKeyboardButton("❌ cℓσsε", "cls")],
+                [InlineKeyboardButton("❌ Close", "cls")],
             ]
         )
         await cb.message.edit(stats, reply_markup=marr)
@@ -419,6 +423,7 @@ async def play(_, message: Message):
                     await lel.edit(
                         "<b>Remember to add helper to your channel</b>",
                     )
+                    pass
                 try:
                     invitelink = await _.export_chat_invite_link(chid)
                 except:
@@ -456,6 +461,21 @@ async def play(_, message: Message):
     message.from_user.first_name
     await lel.edit("🔎 **Finding**")
     message.from_user.id
+    if message.reply_to_message:
+        entities = []
+        toxt = message.reply_to_message.text or message.reply_to_message.caption
+        if message.reply_to_message.entities:
+            entities = message.reply_to_message.entities + entities
+        elif message.reply_to_message.caption_entities:
+            entities = message.reply_to_message.entities + entities
+        urls = [entity for entity in entities if entity.type == 'url']
+        text_links = [
+            entity for entity in entities if entity.type == 'text_link'
+        ]
+    else:
+        urls=None
+    if text_links:
+        urls = True
     user_id = message.from_user.id
     message.from_user.first_name
     user_name = message.from_user.first_name
@@ -473,10 +493,10 @@ async def play(_, message: Message):
         keyboard = InlineKeyboardMarkup(
             [
                 [
-                    InlineKeyboardButton("📖 ρℓαүℓιsт", callback_data="playlist"),
-                    InlineKeyboardButton("мεηυ ⏯ ", callback_data="menu"),
+                    InlineKeyboardButton("📖 Playlist", callback_data="playlist"),
+                    InlineKeyboardButton("Menu ⏯ ", callback_data="menu"),
                 ],
-                [InlineKeyboardButton(text="❌ cℓσsε", callback_data="cls")],
+                [InlineKeyboardButton(text="❌ Close", callback_data="cls")],
             ]
         )
         file_name = get_file_name(audio)
@@ -487,11 +507,52 @@ async def play(_, message: Message):
         views = "Locally added"
         requested_by = message.from_user.first_name
         await generate_cover(requested_by, title, views, duration, thumbnail)
-        file_path = await converter.convert(
+        file_path = await convert(
             (await message.reply_to_message.download(file_name))
             if not path.isfile(path.join("downloads", file_name))
             else file_name
         )
+    elif urls:
+        query = toxt
+        await lel.edit("🎵 **Processing**")
+        ydl_opts = {"format": "bestaudio[ext=m4a]"}
+        try:
+            results = YoutubeSearch(query, max_results=1).to_dict()
+            url = f"https://youtube.com{results[0]['url_suffix']}"
+            # print(results)
+            title = results[0]["title"][:40]
+            thumbnail = results[0]["thumbnails"][0]
+            thumb_name = f"thumb{title}.jpg"
+            thumb = requests.get(thumbnail, allow_redirects=True)
+            open(thumb_name, "wb").write(thumb.content)
+            duration = results[0]["duration"]
+            results[0]["url_suffix"]
+            views = results[0]["views"]
+
+        except Exception as e:
+            await lel.edit(
+                "Song not found.Try another song or maybe spell it properly."
+            )
+            print(str(e))
+            return
+        dlurl=url
+        dlurl=dlurl.replace("youtube","youtubepp")
+        keyboard = InlineKeyboardMarkup(
+            [
+                [
+                    InlineKeyboardButton("📖 Playlist", callback_data="playlist"),
+                    InlineKeyboardButton("Menu ⏯ ", callback_data="menu"),
+                ],
+                [
+                    InlineKeyboardButton(text="🎬 YouTube", url=f"{url}"),
+                    InlineKeyboardButton(text="Download 📥", url=f"{dlurl}"),
+                ],
+                [InlineKeyboardButton(text="❌ Close", callback_data="cls")],
+            ]
+        )
+        requested_by = message.from_user.first_name
+        await generate_cover(requested_by, title, views, duration, thumbnail)
+        file_path = await convert(youtube.download(url))        
     else:
         query = ""
         for i in message.command[1:]:
@@ -518,15 +579,19 @@ async def play(_, message: Message):
             )
             print(str(e))
             return
-
+        dlurl=url
+        dlurl=dlurl.replace("youtube","youtubepp")
         keyboard = InlineKeyboardMarkup(
             [
                 [
-                    InlineKeyboardButton("📖 ρℓαүℓιsт", callback_data="playlist"),
-                    InlineKeyboardButton("мεηυ ⏯ ", callback_data="menu"),
+                    InlineKeyboardButton("📖 Playlist", callback_data="playlist"),
+                    InlineKeyboardButton("Menu ⏯ ", callback_data="menu"),
                 ],
-                [InlineKeyboardButton(text="ωαтcн ση үσυтυвε 🎬", url=f"{url}")],
-                [InlineKeyboardButton(text="❌ cℓσsε", callback_data="cls")],
+                [
+                    InlineKeyboardButton(text="🎬 YouTube", url=f"{url}"),
+                    InlineKeyboardButton(text="Download 📥", url=f"{dlurl}"),
+                ],
+                [InlineKeyboardButton(text="❌ Close", callback_data="cls")],
             ]
         )
         requested_by = message.from_user.first_name
@@ -595,6 +660,7 @@ async def deezer(client: Client, message_: Message):
                     await lel.edit(
                         "<b>Remember to add helper to your channel</b>",
                     )
+                    pass
                 try:
                     invitelink = await client.export_chat_invite_link(chid)
                 except:
@@ -636,7 +702,7 @@ async def deezer(client: Client, message_: Message):
     res = lel
     await res.edit(f"Searching 👀👀👀 for `{queryy}` on deezer")
     try:
-        songs = await arq.deezer(query, 1)
+        songs = await arq.deezer(query,1)
         if not songs.ok:
             await message_.reply_text(songs.result)
             return
@@ -644,7 +710,7 @@ async def deezer(client: Client, message_: Message):
         url = songs.result[0].url
         artist = songs.result[0].artist
         duration = songs.result[0].duration
-        thumbnail = songs.result[0].thumbnail
+        thumbnail = "https://telegra.ph/file/f6086f8909fbfeb0844f2.png"
 
     except:
         await res.edit("Found Literally Nothing, You Should Work On Your English!")
@@ -652,11 +718,11 @@ async def deezer(client: Client, message_: Message):
     keyboard = InlineKeyboardMarkup(
         [
             [
-                InlineKeyboardButton("📖 ρℓαүℓιsт", callback_data="playlist"),
-                InlineKeyboardButton("мεηυ ⏯ ", callback_data="menu"),
+                InlineKeyboardButton("📖 Playlist", callback_data="playlist"),
+                InlineKeyboardButton("Menu ⏯ ", callback_data="menu"),
             ],
-            [InlineKeyboardButton(text="ℓιsтεη ση ∂εεzεя 🎬", url=f"{url}")],
-            [InlineKeyboardButton(text="❌ cℓσsε", callback_data="cls")],
+            [InlineKeyboardButton(text="Listen On Deezer 🎬", url=f"{url}")],
+            [InlineKeyboardButton(text="❌ Close", callback_data="cls")],
         ]
     )
     file_path = await convert(wget.download(url))
@@ -722,6 +788,7 @@ async def jiosaavn(client: Client, message_: Message):
                     await lel.edit(
                         "<b>Remember to add helper to your channel</b>",
                     )
+                    pass
                 try:
                     invitelink = await client.export_chat_invite_link(chid)
                 except:
@@ -778,15 +845,15 @@ async def jiosaavn(client: Client, message_: Message):
     keyboard = InlineKeyboardMarkup(
         [
             [
-                InlineKeyboardButton("📖 ρℓαүℓιsт", callback_data="playlist"),
-                InlineKeyboardButton("мεηυ ⏯ ", callback_data="menu"),
+                InlineKeyboardButton("📖 Playlist", callback_data="playlist"),
+                InlineKeyboardButton("Menu ⏯ ", callback_data="menu"),
             ],
             [
                 InlineKeyboardButton(
                     text="Join Updates Channel", url=f"https://t.me/{updateschannel}"
                 )
             ],
-            [InlineKeyboardButton(text="❌ cℓσsε", callback_data="cls")],
+            [InlineKeyboardButton(text="❌ Close", callback_data="cls")],
         ]
     )
     file_path = await convert(wget.download(slink))
