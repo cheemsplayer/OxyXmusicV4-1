@@ -16,7 +16,7 @@
 
 from pyrogram import Client
 import asyncio
-from OxyXmusic.config import SUDO_USERS
+from OxyXmusic.config import SUDO_USERS, PMPERMIT
 from pyrogram import filters
 from pyrogram.types import Message
 from OxyXmusic import PMPERMIT
