@@ -15,6 +15,7 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 
+import json
 import os
 from os import path
 from typing import Callable
@@ -26,6 +27,7 @@ import requests
 import wget
 from PIL import Image, ImageDraw, ImageFont
 from pyrogram import Client, filters
+from pyrogram.types import Voice
 from pyrogram.errors import UserAlreadyParticipant
 from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup, Message
 from Python_ARQ import ARQ
@@ -39,8 +41,9 @@ from OxyXmusic.config import que
 from OxyXmusic.function.admins import admins as a
 from OxyXmusic.helpers.admins import get_administrators
 from OxyXmusic.helpers.channelmusic import get_chat_id
-from OxyXmusic.helpers.decorators import authorized_users_only
 from OxyXmusic.helpers.errors import DurationLimitError
+from OxyXmusic.helpers.decorators import errors
+from OxyXmusic.helpers.decorators import authorized_users_only
 from OxyXmusic.helpers.filters import command, other_filters
 from OxyXmusic.helpers.gets import get_file_name
 from OxyXmusic.services.callsmusic import callsmusic, queues
@@ -420,6 +423,7 @@ async def play(_, message: Message):
                     await lel.edit(
                         "<b>Remember to add helper to your channel</b>",
                     )
+                    pass
                 try:
                     invitelink = await _.export_chat_invite_link(chid)
                 except:
@@ -455,6 +459,7 @@ async def play(_, message: Message):
         return
     message.from_user.id
     message.from_user.first_name
+    text_links=None
     await lel.edit("🔎 **Finding**")
     message.from_user.id
     if message.reply_to_message:
@@ -464,10 +469,12 @@ async def play(_, message: Message):
             entities = message.reply_to_message.entities + entities
         elif message.reply_to_message.caption_entities:
             entities = message.reply_to_message.entities + entities
-        urls = [entity for entity in entities if entity.type == "url"]
-        text_links = [entity for entity in entities if entity.type == "text_link"]
+        urls = [entity for entity in entities if entity.type == 'url']
+        text_links = [
+            entity for entity in entities if entity.type == 'text_link'
+        ]
     else:
-        urls = None
+        urls=None
     if text_links:
         urls = True
     user_id = message.from_user.id
@@ -529,8 +536,8 @@ async def play(_, message: Message):
             )
             print(str(e))
             return
-        dlurl = url
-        dlurl = dlurl.replace("youtube", "youtubepp")
+        dlurl=url
+        dlurl=dlurl.replace("youtube","youtubepp")
         keyboard = InlineKeyboardMarkup(
             [
                 [
@@ -546,7 +553,7 @@ async def play(_, message: Message):
         )
         requested_by = message.from_user.first_name
         await generate_cover(requested_by, title, views, duration, thumbnail)
-        file_path = await convert(youtube.download(url))
+        file_path = await convert(youtube.download(url))        
     else:
         query = ""
         for i in message.command[1:]:
@@ -573,8 +580,8 @@ async def play(_, message: Message):
             )
             print(str(e))
             return
-        dlurl = url
-        dlurl = dlurl.replace("youtube", "youtubepp")
+        dlurl=url
+        dlurl=dlurl.replace("youtube","youtubepp")
         keyboard = InlineKeyboardMarkup(
             [
                 [
@@ -654,6 +661,7 @@ async def deezer(client: Client, message_: Message):
                     await lel.edit(
                         "<b>Remember to add helper to your channel</b>",
                     )
+                    pass
                 try:
                     invitelink = await client.export_chat_invite_link(chid)
                 except:
@@ -695,7 +703,7 @@ async def deezer(client: Client, message_: Message):
     res = lel
     await res.edit(f"Searching 👀👀👀 for `{queryy}` on deezer")
     try:
-        songs = await arq.deezer(query, 1)
+        songs = await arq.deezer(query,1)
         if not songs.ok:
             await message_.reply_text(songs.result)
             return
@@ -781,6 +789,7 @@ async def jiosaavn(client: Client, message_: Message):
                     await lel.edit(
                         "<b>Remember to add helper to your channel</b>",
                     )
+                    pass
                 try:
                     invitelink = await client.export_chat_invite_link(chid)
                 except:
