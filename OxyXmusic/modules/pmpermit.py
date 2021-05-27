@@ -14,14 +14,15 @@
 # You should have received a copy of the GNU Affero General Public License
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
-from OxyXmusic.services.callsmusic.callsmusic import client as USER
-from pyrogram import Client, filters
-from pyrogram.types import Message
-
-from OxyXmusic import PMPERMIT
+from pyrogram import Client
+import asyncio
 from OxyXmusic.config import SUDO_USERS
+from pyrogram import filters
+from pyrogram.types import Message
+from OxyXmusic import PMPERMIT
+from OxyXmusic.services.callsmusic.callsmusic import client as USER
 
-PMSET = True
+PMSET =True
 
 
 @USER.on_message(filters.text & filters.private & ~filters.me & ~filters.bot)
@@ -34,6 +35,7 @@ async def pmPermit(client: USER, message: Message):
             )
             return
 
+    
 
 @Client.on_message(filters.command(["/pmpermit"]))
 async def bye(client: Client, message: Message):
