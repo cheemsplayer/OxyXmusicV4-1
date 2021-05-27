@@ -19,7 +19,6 @@ import asyncio
 from OxyXmusic.config import SUDO_USERS, PMPERMIT
 from pyrogram import filters
 from pyrogram.types import Message
-from OxyXmusic import PMPERMIT
 from OxyXmusic.services.callsmusic.callsmusic import client as USER
 
 PMSET =True
