@@ -14,21 +14,21 @@
 # You should have received a copy of the GNU Affero General Public License
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
-from OxyXmusic.config import ASSISTANT_NAME, PROJECT_NAME
-
-
-class Messages:
-    START_MSG = "**➼ Hello 👋 [{}](tg://user?id={})!**\n\n➼ I am an advanced bot created for playing music in the voice chats of Telegram Groups & Channels.\n\n➼ Send me /help for more info."
-    HELP_MSG = [
+import os
+from OxyXmusic.config import SOURCE_CODE,ASSISTANT_NAME,PROJECT_NAME,SUPPORT_GROUP,UPDATES_CHANNEL
+class Messages():
+      START_MSG = "**Hello 👋 [{}](tg://user?id={})!**\n\n🤖 I am an advanced bot created for playing music in the voice chats of Telegram Groups & Channels.\n\n✅ Send me /help for more info."
+      HELP_MSG = [
         ".",
-        f"""
-**➼ Hey 👋 Welcome back to {PROJECT_NAME}
+f"""
+**Hey 👋 Welcome back to {PROJECT_NAME}
 
-➼ {PROJECT_NAME} can play music in your group's voice chat as well as channel voice chats
+⚪️ {PROJECT_NAME} can play music in your group's voice chat as well as channel voice chats
 
-➼ Assistant name >> @{ASSISTANT_NAME}\n\n➼ Click next for instructions**
+⚪️ Assistant name >> @{ASSISTANT_NAME}\n\nClick next for instructions**
 """,
-        f"""
+
+f"""
 **Setting up**
 
 1) Make bot admin (Group and in channel if use cplay)
@@ -60,11 +60,14 @@ class Messages:
 - /end: Stops media playback
 - /current: Shows the current Playing track
 - /playlist: Shows playlist
+
+*Player cmd and all other cmds except /play, /current  and /playlist  are only for admins of the group.
 """,
-        f"""
+        
+f"""
 **=>> Channel Music Play 🛠**
 
-➼ For linked group admins only:
+⚪️ For linked group admins only:
 
 - /cplay [song name] - play song you requested
 - /cdplay [song name] - play song you requested via deezer
@@ -80,7 +83,7 @@ class Messages:
 
 channel is also can be used instead of c ( /cplay = /channelplay )
 
-➼ If you donlt like to play in linked group:
+⚪️ If you donlt like to play in linked group:
 
 1) Get your channel ID.
 2) Create a group with tittle: Channel Music: your_channel_id
@@ -88,12 +91,19 @@ channel is also can be used instead of c ( /cplay = /channelplay )
 4) Add @{ASSISTANT_NAME} to the channel as an admin.
 5) Simply send commands in your group.
 """,
-        f"""
+
+f"""
 **=>> More tools 🧑‍🔧**
 
 - /admincache: Updates admin info of your group. Try if bot isn't recognize admin
 - /userbotjoin: Invite @{ASSISTANT_NAME} Userbot to your chat
 
-*Player cmd and all other cmds except /play, /current  and /playlist  are only for admins of the group.
-""",
-    ]
+**=>> Commands for Sudo Users ⚔️**
+
+ - /userbotleaveall - remove assistant from all chats
+ - /gcast <reply to message> - globally brodcast replied message to all chats
+ - /pmpermit [on/off] - enable/disable pmpermit message
+*Sudo Users can execute any command in any groups
+
+"""
+      ]
