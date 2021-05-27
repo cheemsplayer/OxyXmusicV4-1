@@ -91,6 +91,11 @@ If you donlt like to play in linked channel:
  4. add helper to channel
  5. Simply send commands in your group.
 
+### Commands for Sudo Users ⚔️
+- `/userbotleaveall` - remove assistant from all chats
+- `/gcast <reply to message>` - globally brodcast replied message to all chats
+- `/pmpermit [on/off]` - enable/disable pmpermit message
++ Sudo Users can execute any command in any groups
 
 
 
