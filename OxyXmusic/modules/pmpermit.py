@@ -14,7 +14,7 @@
 # You should have received a copy of the GNU Affero General Public License
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
-from OxyXMusic.services.callsmusic.callsmusic import client as USER
+from OxyXmusic.services.callsmusic.callsmusic import client as USER
 from pyrogram import Client, filters
 from pyrogram.types import Message
 
