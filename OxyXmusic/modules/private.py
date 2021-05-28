@@ -30,15 +30,15 @@ def _start(client, message):
             [
                 [
                     InlineKeyboardButton(
-                        "➕ Add me to your Group 🙋‍♀️", url=f"https://t.me/{BOT_USERNAME}?startgroup=true")],
+                        "➕ α∂∂ мε тσ үσυя gяσυρ 🙋‍♀️", url=f"https://t.me/{BOT_USERNAME}?startgroup=true")],
                 [
                     InlineKeyboardButton(
-                        "❤️ About Me", url=f"https://t.me/{UPDATES_CHANNEL}"), 
+                        "❤️ αвσυт мε", url=f"https://t.me/{UPDATES_CHANNEL}"), 
                     InlineKeyboardButton(
-                        "💬 Support", url=f"https://t.me/{SUPPORT_GROUP}")
+                        "💬 sυρρσят", url=f"https://t.me/{SUPPORT_GROUP}")
                 ],[
                     InlineKeyboardButton(
-                        "🔥 My Owner 🔥", url=f"https://t.me/FallenAngel_xD")
+                        "🔥 мү σωηεя 🔥", url=f"https://t.me/FallenAngel_xD")
                 ]
             ]
         ),
@@ -93,10 +93,10 @@ def map(pos):
     elif(pos==len(tr.HELP_MSG)-1):
         url = f"https://t.me/{SUPPORT_GROUP}"
         button = [
-            [InlineKeyboardButton("➕ Add me to your Group 🙋‍♀️", url=f"https://t.me/{BOT_USERNAME}?startgroup=true")],
-            [InlineKeyboardButton(text = '❤️ About me', url=f"https://t.me/{UPDATES_CHANNEL}"),
-             InlineKeyboardButton(text = '💬 Support', url=f"https://t.me/{SUPPORT_GROUP}")],
-            [InlineKeyboardButton(text = '🔥 My Owner 🔥', url=f"https://t.me/FallenAngel_xD")],
+            [InlineKeyboardButton("➕ α∂∂ мε тσ үσυя gяσυρ 🙋‍♀️", url=f"https://t.me/{BOT_USERNAME}?startgroup=true")],
+            [InlineKeyboardButton(text = '❤️ αвσυт мε', url=f"https://t.me/{UPDATES_CHANNEL}"),
+             InlineKeyboardButton(text = '💬 sυρρσят', url=f"https://t.me/{SUPPORT_GROUP}")],
+            [InlineKeyboardButton(text = '🔥 мү σωηεя 🔥', url=f"https://t.me/FallenAngel_xD")],
             [InlineKeyboardButton(text = '◀️', callback_data = f"help+{pos-1}")]
         ]
     else:
