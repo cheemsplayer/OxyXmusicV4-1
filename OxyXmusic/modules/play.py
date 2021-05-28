@@ -190,9 +190,9 @@ def r_ply(type_):
                 InlineKeyboardButton("⏭", "skip"),
             ],
             [
-                InlineKeyboardButton("Playlist 📖", "playlist"),
+                InlineKeyboardButton("ρℓαүℓιsт 📖", "playlist"),
             ],
-            [InlineKeyboardButton("❌ Close", "cls")],
+            [InlineKeyboardButton("❌ cℓσsε", "cls")],
         ]
     )
     return mar
@@ -359,9 +359,9 @@ async def m_cb(b, cb):
                     InlineKeyboardButton("⏭", "skip"),
                 ],
                 [
-                    InlineKeyboardButton("Playlist 📖", "playlist"),
+                    InlineKeyboardButton("ρℓαүℓιsт 📖", "playlist"),
                 ],
-                [InlineKeyboardButton("❌ Close", "cls")],
+                [InlineKeyboardButton("❌ cℓσsε", "cls")],
             ]
         )
         await cb.message.edit(stats, reply_markup=marr)
@@ -494,10 +494,10 @@ async def play(_, message: Message):
         keyboard = InlineKeyboardMarkup(
             [
                 [
-                    InlineKeyboardButton("📖 Playlist", callback_data="playlist"),
+                    InlineKeyboardButton("📖 ρℓαүℓιsт", callback_data="playlist"),
                     InlineKeyboardButton("Menu ⏯ ", callback_data="menu"),
                 ],
-                [InlineKeyboardButton(text="❌ Close", callback_data="cls")],
+                [InlineKeyboardButton(text="❌ cℓσsε", callback_data="cls")],
             ]
         )
         file_name = get_file_name(audio)
@@ -541,14 +541,14 @@ async def play(_, message: Message):
         keyboard = InlineKeyboardMarkup(
             [
                 [
-                    InlineKeyboardButton("📖 Playlist", callback_data="playlist"),
-                    InlineKeyboardButton("Menu ⏯ ", callback_data="menu"),
+                    InlineKeyboardButton("📖 ρℓαүℓιsт", callback_data="playlist"),
+                    InlineKeyboardButton("мεηυ ⏯ ", callback_data="menu"),
                 ],
                 [
-                    InlineKeyboardButton(text="🎬 YouTube", url=f"{url}"),
-                    InlineKeyboardButton(text="Download 📥", url=f"{dlurl}"),
+                    InlineKeyboardButton(text="🎬 үσυтυвε", url=f"{url}"),
+                    InlineKeyboardButton(text="∂σωηℓσα∂ 📥", url=f"{dlurl}"),
                 ],
-                [InlineKeyboardButton(text="❌ Close", callback_data="cls")],
+                [InlineKeyboardButton(text="❌ cℓσsε", callback_data="cls")],
             ]
         )
         requested_by = message.from_user.first_name
@@ -585,14 +585,14 @@ async def play(_, message: Message):
         keyboard = InlineKeyboardMarkup(
             [
                 [
-                    InlineKeyboardButton("📖 Playlist", callback_data="playlist"),
-                    InlineKeyboardButton("Menu ⏯ ", callback_data="menu"),
+                    InlineKeyboardButton("📖 ρℓαүℓιsт", callback_data="playlist"),
+                    InlineKeyboardButton("мεηυ ⏯ ", callback_data="menu"),
                 ],
                 [
-                    InlineKeyboardButton(text="🎬 YouTube", url=f"{url}"),
-                    InlineKeyboardButton(text="Download 📥", url=f"{dlurl}"),
+                    InlineKeyboardButton(text="🎬 үσυтυвε", url=f"{url}"),
+                    InlineKeyboardButton(text="∂σωηℓσα∂ 📥", url=f"{dlurl}"),
                 ],
-                [InlineKeyboardButton(text="❌ Close", callback_data="cls")],
+                [InlineKeyboardButton(text="❌ cℓσsε", callback_data="cls")],
             ]
         )
         requested_by = message.from_user.first_name
@@ -719,11 +719,11 @@ async def deezer(client: Client, message_: Message):
     keyboard = InlineKeyboardMarkup(
         [
             [
-                InlineKeyboardButton("📖 Playlist", callback_data="playlist"),
-                InlineKeyboardButton("Menu ⏯ ", callback_data="menu"),
+                InlineKeyboardButton("📖 ρℓαүℓιsт", callback_data="playlist"),
+                InlineKeyboardButton("мεηυ ⏯ ", callback_data="menu"),
             ],
-            [InlineKeyboardButton(text="Listen On Deezer 🎬", url=f"{url}")],
-            [InlineKeyboardButton(text="❌ Close", callback_data="cls")],
+            [InlineKeyboardButton(text="ℓιsтεη ση ∂εεzεя 🎬", url=f"{url}")],
+            [InlineKeyboardButton(text="❌ cℓσsε", callback_data="cls")],
         ]
     )
     file_path = await convert(wget.download(url))
@@ -846,15 +846,15 @@ async def jiosaavn(client: Client, message_: Message):
     keyboard = InlineKeyboardMarkup(
         [
             [
-                InlineKeyboardButton("📖 Playlist", callback_data="playlist"),
-                InlineKeyboardButton("Menu ⏯ ", callback_data="menu"),
+                InlineKeyboardButton("📖 ρℓαүℓιsт", callback_data="playlist"),
+                InlineKeyboardButton("мεηυ ⏯ ", callback_data="menu"),
             ],
             [
                 InlineKeyboardButton(
                     text="Join Updates Channel", url=f"https://t.me/{updateschannel}"
                 )
             ],
-            [InlineKeyboardButton(text="❌ Close", callback_data="cls")],
+            [InlineKeyboardButton(text="❌ cℓσsε", callback_data="cls")],
         ]
     )
     file_path = await convert(wget.download(slink))
