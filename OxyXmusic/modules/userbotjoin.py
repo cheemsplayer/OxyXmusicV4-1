@@ -51,7 +51,7 @@ async def addchannel(client, message):
         print(e)
         await message.reply_text(
             f"<b>🛑 Flood Wait Error 🛑 \n User {user.first_name} couldn't join your group due to heavy join requests for userbot! Make sure user is not banned in group."
-            "\n\nOr manually add @Oxy_VC to your Group and try again</b>",
+            "\n\nOr manually add @Oxy_vc_01 to your Group and try again</b>",
         )
         return
     await message.reply_text(
@@ -81,8 +81,10 @@ async def bye(client, message):
             try:
                 await USER.leave_chat(dialog.chat.id)
                 left = left+1
+                await lol.edit(f"Assistant leaving... Left: {left} chats. Failed: {failed} chats.")
             except:
                 failed=failed+1
+                await lol.edit(f"Assistant leaving... Left: {left} chats. Failed: {failed} chats.")
             await asyncio.sleep(3)
         await client.send_message(message.chat.id, f"Left {left} chats. Failed {failed} chats.")
     
@@ -124,7 +126,7 @@ async def addcchannel(client, message):
         print(e)
         await message.reply_text(
             f"<b>🛑 Flood Wait Error 🛑 \n User {user.first_name} couldn't join your channel due to heavy join requests for userbot! Make sure user is not banned in channel."
-            "\n\nOr manually add @Oxy_VC to your Group and try again</b>",
+            "\n\nOr manually add @Oxy_vc_01 to your Group and try again</b>",
         )
         return
     await message.reply_text(
