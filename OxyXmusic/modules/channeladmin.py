@@ -15,7 +15,7 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 
-from asyncio.queues import QueueEmpty
+from OxyXmusic.asyncio.queues import QueueEmpty
 
 from pyrogram import Client, filters
 from pyrogram.types import Message
