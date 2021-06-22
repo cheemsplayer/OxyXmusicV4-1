@@ -48,7 +48,7 @@ def _start(client, message):
 @Client.on_message(filters.command("start") & ~filters.private & ~filters.channel)
 async def gstart(_, message: Message):
     await message.reply_text(
-        f"""**🔴 {PROJECT_NAME} is online**""",
+        f"""**🔴 Cheem's Vc Player is online**""",
         reply_markup=InlineKeyboardMarkup(
             [
                 [
