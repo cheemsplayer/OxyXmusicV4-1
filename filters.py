@@ -15,25 +15,16 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 
-from typing import List
+from typing import Union, List
 
-from pyrogram.types import Chat, User
+from pyrogram import filters
 
-import cache.admins
+from config import COMMAND_PREFIXES
+
+other_filters = filters.group & ~ filters.edited & ~ filters.via_bot & ~ filters.forwarded
+other_filters2 = filters.private & ~ filters.edited & ~ filters.via_bot & ~ filters.forwarded
 
 
-async def get_administrators(chat: Chat) -> List[User]:
-    get = cache.admins.get(chat.id)
+def command(commands: Union[str, List[str]]):
+    return filters.command(commands, COMMAND_PREFIXES)
 
-    if get:
-        return get
-    else:
-        administrators = await chat.get_members(filter="administrators")
-        to_set = []
-
-        for administrator in administrators:
-            #if administrator.can_manage_voice_chats:
-            to_set.append(administrator.user.id)
-
-        cache.admins.set(chat.id, to_set)
-        return await get_administrators(chat)
