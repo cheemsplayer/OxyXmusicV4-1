@@ -17,11 +17,11 @@
 import os
 from OxyXmusic.config import SOURCE_CODE,ASSISTANT_NAME,PROJECT_NAME,SUPPORT_GROUP,UPDATES_CHANNEL
 class Messages():
-      START_MSG = "**Hellow 👋 [{}](tg://user?id={})!**\n\n➼ I am an advanced bot created for playing music in the voice chats of Telegram Groups & Channels.\n\n➼ Send me /help for more info."
+      START_MSG = "**Hello 👋 [{}](tg://user?id={})!**\n\n➼ I am an advanced bot created for playing music in the voice chats of Telegram Groups & Channels.\n\n➼ Send me /help for more info."
       HELP_MSG = [
         ".",
 f"""
-**Hey 👋 Welcome back to Cheem's Vc Player
+**Hey 👋 Welcome back to Wonder Gurl Music Bot✨💫
 
 ➼ Cheem's Vc Player can play music in your group's voice chat as well as channel voice chats
 
